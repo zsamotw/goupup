@@ -1,4 +1,5 @@
 object listMethods {
+
   val list = List(1,3,3,4,2,3,4,2,5,6)
 
   def pack(xs: List[Int]): List[List[Int]] = {

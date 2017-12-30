@@ -1,3 +1,7 @@
+/**
+  *Chess horse alghoritm. It starts from the point and try to visit all fields of board.
+  */
+
 object ChessHorse {
   val eval_1: List[Int => Int] = List((x: Int) => x + 1, (x: Int) => x - 1)
   val eval_2: List[Int => Int] = List((y: Int) => y + 2, (y: Int) => y - 2)

@@ -1,3 +1,7 @@
+/**
+  *Scala version of "Heathtow to London" from "Learn your Haskell for great good"
+  */
+
 object RoadSystem {
   case class Section(val a: Int, val b: Int, val c: Int)
   type RoadSystem = List[Section]

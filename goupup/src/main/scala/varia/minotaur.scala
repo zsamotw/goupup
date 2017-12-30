@@ -1,3 +1,7 @@
+/**
+  *Alghoritm for looking for a way out from maze. The maze is two dimensional array.
+  */
+
 
 object Minotaur {
   val minotaur = Array.ofDim[Char](10,10)
