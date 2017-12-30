@@ -1,7 +1,7 @@
 package varia
 
 /**
-  *Alghoritm for looking for a way out from maze. The maze is two dimensional array.
+  *Algorithm for looking for a way out from maze. The maze is two dimensional array.
   */
 
 

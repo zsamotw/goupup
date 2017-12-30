@@ -1,7 +1,7 @@
 package varia
 
 /**
-  *Chess horse alghoritm. It starts from the point and try to visit all fields of board.
+  *Chess horse algorithm. It starts from the point and try to visit all fields of board.
   */
 
 object ChessHorse {
