@@ -1,3 +1,5 @@
+package varia
+
 /**
   *Scala version of "Heathtow to London" from "Learn your Haskell for great good"
   */
