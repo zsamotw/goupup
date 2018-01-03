@@ -20,6 +20,7 @@ object listMethods {
       case Nil => Nil
       case x :: xs1 => {
         pack(xs) match {
+          case Nil => Nil
           case y :: ys => List((y.head, y.length)) :: encode(ys.flatten)
         }
       }
