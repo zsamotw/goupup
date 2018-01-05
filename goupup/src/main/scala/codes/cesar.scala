@@ -26,7 +26,7 @@ class Cesar(val shift: Int) {
     val n = ch.toInt - shift
     n match {
       case _ if(n < 0) => maxBound - ( (Math.abs(n) + minBound) % maxBound ) + 1
-      case _ if(n < minBound) => maxBound - (minBound - n) + 1 
+      case _ if(n < minBound) => maxBound - (minBound - n) + 1
       case _ => n
     }
   }
