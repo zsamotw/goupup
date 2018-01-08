@@ -1,8 +1,18 @@
 package vigenere 
 
 class Vigenere {
+
+  /**
+    * final values
+    **/
+
   val minBound = 97
   val maxBound = 122
+  val firstListIndex = 1
+
+  /**
+    * Methods for creating code squere
+    **/
 
   def shift(i: Int, shift: Int) = {
     val j = i + shift
@@ -31,6 +41,10 @@ class Vigenere {
 
   val codeSqr = mapToShifted(withoutShift, 0)
 
+  /**
+    * Methods for setting code fraze
+    **/
+
   def setKey(fraze: String, key: String): String = {
     (fraze.length(), key.length()) match {
       case(fs, ks) if(ks > fs) => key.take(fs)
@@ -50,17 +64,38 @@ class Vigenere {
     }
   }
 
+  /**
+    * Methods for encoding / decoding
+    **/
+
   def encodeChar(chFromFraze: Char, charFromKey: Char, sqr: List[List[Int]]): Char = {
     val fromFrazeInt = chFromFraze.toInt
     val fromKeyInt = charFromKey.toInt
 
-    val horizontalIndex = sqr.take(1).flatten.indexOf(fromFrazeInt)
+    val horizontalIndex = sqr.take(firstListIndex).flatten.indexOf(fromFrazeInt)
     val listToWork = sqr.flatMap(list => if(list.head == fromKeyInt) list else Nil)
     listToWork(horizontalIndex).toChar
   }
 
-  def encode(fraze: String, codeKey: String) = {
-    val tuples = fraze zip codeKey
-    ( tuples map{case (f,c) => encodeChar(f, c, codeSqr)} ).toString
+  def decodeChar(chFromFraze: Char, charFromKey: Char, sqr: List[List[Int]]): Char = {
+    val fromFrazeInt =chFromFraze.toInt
+    val fromKeyInt = charFromKey.toInt
+
+    val listWithKeyVal = sqr.flatMap(list => if(list.head == fromKeyInt) list else Nil)
+    val horizontalIndex = listWithKeyVal.indexOf(fromFrazeInt)
+    val intVal = sqr.take(firstListIndex).flatten
+    intVal(horizontalIndex).toChar
+  }
+
+  def encode(fraze: String, codeKey: String): String = {
+    val equalCode = setKey(fraze, codeKey)
+    val tuples = fraze zip equalCode
+    (tuples map{case (f,c) => encodeChar(f, c, codeSqr)}).mkString
+  }
+
+  def decode(fraze: String, codeKey: String): String = {
+    val equalCode = setKey(fraze, codeKey)
+    val tuples = fraze zip equalCode
+    (tuples map{case (f,c) => decodeChar(f, c, codeSqr)}).mkString
   }
 }

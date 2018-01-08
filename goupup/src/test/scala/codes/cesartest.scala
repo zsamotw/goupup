@@ -16,14 +16,14 @@ class CesarTest extends FunSuite {
 
   test("check set code char2") {
     val ch1 = c.setCode('a', 72)
-    println("a + 72: " + ch1)
+//    println("a + 72: " + ch1)
     val res = c.getCharCode(ch1.toChar,72)
     assert(res == 97)
   }
 
   test("check get car code") {
     val ch = c.getCharCode('!', 10)
-    println('!'.toInt - 10)
+    // println('!'.toInt - 10)
     assert(ch == 119)
   }
 
