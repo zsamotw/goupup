@@ -1,6 +1,13 @@
 package huffman
 object Huffman {
 
+
+
+  /*
+   * creating code tree
+   */
+
+
   abstract class CodeTree
 
   case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree
@@ -21,7 +28,7 @@ object Huffman {
   }
 
   def makeCodeTree(left: CodeTree, right: CodeTree) = {
-    Fork(left, right, chars(left)::: chars(right), weight(left) + weight(right))
+    Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
   }
 
   def string2Chars(str: String) = str.toList
@@ -56,17 +63,29 @@ object Huffman {
 
 
   /*
-   *
+   * encode and decode
    */
 
   type Bit = Int
 
+
+  def encode(tree: CodeTree, fraze: List[Char]): List[Bit] = {
+    def helper(tree: CodeTree, char: Char): List[Bit] = tree match {
+      case Leaf(_, _) => Nil
+      case Fork(right, _, _, _) if chars(right).contains(char) => 1 :: helper(right,char)
+      case Fork(_, left, _, _) => 0 :: helper(left, char)
+    }
+    fraze flatMap(ch => helper(tree, ch))
+  }
+
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-    null
-  }
+    def makeSentence(toEndTree: CodeTree, bits: List[Bit]): List[Char] = toEndTree match {
+        case Leaf(ch,_) if(bits.isEmpty) =>  List(ch)
+        case Leaf(ch, _) => ch :: makeSentence(tree, bits)
+        case Fork(right, _, _, _) if(bits.head == 1)=> makeSentence(right, bits.tail)
+        case Fork(_, left, _, _) if(bits.head == 0) => makeSentence(left, bits.tail)
+    }
 
-  def encode(tree: CodeTree, chars: List[Char]): List[Bit] = {
-    null
+    makeSentence(tree, bits)
   }
-
 }

@@ -22,6 +22,13 @@ class HuffmanTest extends FlatSpec  {
     // println(ctlbis)
   }
 
+  it should "check encode tree" in {
+    val chars = List('h', 't', 'a')
+    val codeTree = createCodeTree(chars)
+    val enc = encode(codeTree, chars)
+    val dec = decode(codeTree, enc)
+    assert(chars == dec)
+  }
 
   
 }
