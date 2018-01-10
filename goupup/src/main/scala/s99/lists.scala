@@ -1,3 +1,8 @@
+/**
+  * implementations of exercises of ninety nine scala problems from http://aperiodic.net/phil/scala/s-99/
+  */
+
+
 object Lists { 
   //1
   def last[T](list: List[T]): T = list match {
@@ -48,7 +53,7 @@ object Lists {
   def compress[T](list: List[T]): List[T] = {
     def makeList(list: List[T], res: List[T]): List[T] = (list, res) match {
       case (Nil, res) => res
-      case (x::xs, res) =>
+      case (x :: xs, res) =>
         if(res contains x) makeList(xs, res) else makeList(xs, res ::: List(x))
     }
     makeList(list, Nil)
@@ -143,5 +148,96 @@ object Lists {
 
     (take(list,n), drop(list, n))
   }
+
+  //18
+  def slice[T](start: Int, end: Int, list: List[T]): List[T] = {
+    def creator(start: Int, end: Int, list: List[T], res: List[T]): List[T] = (start, end, list, res) match {
+      case (_, _, Nil, _) => Nil
+      case (_, 0, _,res) => res
+      case (s, e, ll, res) if(s > 0) => creator(s - 1, e - 1, ll.tail, res)
+      case (s, e, ll, res) if(s == 0 && e > 0) => creator(s, e - 1, ll.tail, res ::: List(ll.head))
+    }
+    creator(start, end, list, Nil)
+  }
+
+  //19
+  def rotate[T](n: Int, list: List[T]): List[T] = (n, list) match {
+    case (_, Nil) => Nil
+    case (0, xs) => xs
+    case (n, xs) if(n > 0)=> rotate(n - 1, xs.tail ::: List(xs.head))
+    case (n, xs) if(n < 0) => rotate(n + 1, xs.last :: xs.init)
+  }
+
+  //20
+  def remove[T](n: Int, list: List[T]): (T, List[T]) = {
+    def remover(n: Int, xs: List[T], header: List[T]): (T, List[T]) = (n, xs) match {
+      case (_, Nil) => throw new Error("Nil list") 
+      case (0, xs) => (xs.head, header ::: xs.tail)
+      case (n, xs) => remover(n - 1, xs.tail, header ::: List(xs.head))
+    }
+    remover(n, list, Nil)
+  }
+
+  //21
+  def insertAt[T](el: T, n: Int, list: List[T]): List[T] = {
+    def inserter(n: Int, xs: List[T], header: List[T]): List[T] = (n, xs) match {
+      case (_, Nil) => throw new Error("Not possible")
+      case (0, xs) => header ::: List(el) ::: xs
+      case (n, xs) => inserter(n - 1, xs.tail, header ::: List(xs.head))
+    }
+    inserter(n, list, Nil)
+  }
+
+  //22
+  def range(start: Int, end: Int): List[Int] = (start, end) match {
+    case (s,e) if(e - s < 0) => throw new Error("not possible")
+    case (s,e) if(e - s == 0)=> e :: Nil
+    case (s,e) if(e - s > 0)=> s :: range(s + 1, e)
+  }
+
+  //23
+  def randomSelect[T](n: Int, list: List[T]): List[T] = {
+    import scala.util.Random
+    val rand = new Random
+
+    def helper(n: Int, xs: List[T]): List[T] = (n, xs) match {
+      case (_, Nil) => Nil
+      case (0, xs) => Nil
+      case (n, xs) =>
+        val i = rand.nextInt(xs.length)
+        val(el, rest) = remove(i, xs)
+        el :: (helper(n - 1, rest))
+    }
+    helper(n, list)
+  }
+
+  //24
+  def lotto(n: Int, end: Int): List[Int] = {
+    val xs = range(1, end)
+    randomSelect(n, xs)
+
+  }
+
+  //25
+  def randomPermute[T](list: List[T]): List[T] = {
+    randomSelect(list.length, list)
+  }
+
+  //26
+  def combinations[T](n: Int, list: List[T]): List[List[T]] = {
+    def creator(n: Int, xs: List[T], whatBefor: List[T]): List[List[T]] = {
+      xs.length match {
+        case i if(i == n)=> List(xs) 
+        case _ =>
+          val head = xs take (n - 1)
+          val tail = xs drop (n - 1)
+          val resHead = for(el <- whatBefor) yield head ::: List(el)
+          val resTail = for(el <- tail) yield head ::: List(el)
+          resHead ::: resTail ::: creator(n,xs.tail, whatBefor ::: List(xs.head))
+      }
+    }
+    creator(n, list, List())
+  }
+
 }
 
