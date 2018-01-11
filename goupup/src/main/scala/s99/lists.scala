@@ -239,5 +239,17 @@ object Lists {
     creator(n, list, List())
   }
 
+  //28
+  def lsort[T](list: List[List[T]]): List[List[T]] = {
+    def insert(l: List[T], ll: List[List[T]]): List[List[T]] = ll match {
+      case Nil => List(l)
+      case x :: xs => if(l.length > x.length) x :: insert(l, xs) else l :: ll
+    }
+    list match {
+      case Nil => Nil
+      case x :: xs => insert(x, lsort(xs))
+    }
+  }
+
 }
 
