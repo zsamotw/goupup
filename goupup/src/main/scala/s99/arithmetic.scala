@@ -10,10 +10,7 @@ object Arithmetic {
   class S99Int(val x: Int) {
 
     //31
-    def isPrime: Boolean = {
-      val dividers = 2 to x / 2 
-      dividers.forall(x % _ != 0)
-    }
+    def isPrime: Boolean = 2 to x / 2 forall(x % _ != 0)
 
     //32
     def gcd(a: Int, b: Int): Int = {
@@ -25,7 +22,7 @@ object Arithmetic {
 
     //34
     def totient = ( 1 to x filter(i => i.isCoprimeTo(x)) ).length
-      //( for(i <- 1 to x; if(i.isCoprimeTo(x))) yield i ).toList.length
+
     //35
     def primeFactors = {
       val factors = 2 to x / 2 filter(x % _ == 0)
