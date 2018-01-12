@@ -10,5 +10,6 @@ class ArithmeticTest extends FlatSpec {
     assert(35.isCoprimeTo(64))
     assert(10.totient == 4)
     assert(315.primeFactors == List(3,5,7))
+    assert(28.golbach == (5,23))
   }
 }

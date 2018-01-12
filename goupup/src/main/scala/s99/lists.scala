@@ -53,7 +53,8 @@ object Lists {
   def compress[T](list: List[T]): List[T] = {
     def makeList(list: List[T], res: List[T]): List[T] = (list, res) match {
       case (Nil, res) => res
-      case (x :: xs, res) =>
+    
+  case (x :: xs, res) =>
         if(res contains x) makeList(xs, res) else makeList(xs, res ::: List(x))
     }
     makeList(list, Nil)
