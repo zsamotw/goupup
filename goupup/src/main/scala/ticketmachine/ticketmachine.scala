@@ -25,14 +25,21 @@ class Machine(val coins: List[(Int, List[Int])], val tickets: List[(Int, List[In
   def buy(ticket: Int, money: Int): Machine = {
     if(machineContainsTicket(ticket)) {
       val moneyToGive = money - ticket
-      if(moneyToGive < 0) this
+      if(moneyToGive < 0) {
+        println("!Not enough money to buy ticket!")
+        this
+      }
       else {
         val newCoins = giveCharge(coins, moneyToGive)
         val newTickets = giveTicket(tickets, ticket)
+        println(s"!You just have bought ticket: $ticket. Change: $moneyToGive!")
         new Machine(newCoins, newTickets, menu)
       }
     }
-    else this
+    else {
+      println("!There is no ticket here!")
+      this
+    }
   }
 
   def machineContainsTicket(ticket: Int): Boolean = {
@@ -47,11 +54,13 @@ class Machine(val coins: List[(Int, List[Int])], val tickets: List[(Int, List[In
   def giveCharge(coins: List[(Int, List[Int])], moneyToGive: Int): List[(Int, List[Int])] = {
     val sortedCoins = coins.sortWith{case (prev, next) => prev._1 > next._1}
     (sortedCoins, moneyToGive) match {
-      case (Nil, _) => self.coins
+      case (Nil, _) =>
+        println("!No coins in Machine!")
+        self.coins
       case (_, 0) => coins
       case ((elem :: elems), moneyToGive) =>
         elem match {
-          case (value, Nil) => elem :: giveCharge(elems, moneyToGive)
+          case (value, Nil) => /*elem :: */giveCharge(elems, moneyToGive)
           case (value, list) =>
             if(value > moneyToGive) elem :: giveCharge(elems, moneyToGive)
             else {
@@ -82,7 +91,7 @@ class TicketApp {
     val choice = machine.getChoice
     choice match { 
       case 0 =>
-        println("error with input value")
+        println("Error with input value")
         loop(machine)
       case 1 =>
         println("Ticket value?")
@@ -101,7 +110,7 @@ class TicketApp {
 }
 
 object AppMachine extends App {
-  val coins = List((10, List(10, 10, 10)), (5, List(5,5,5,5)), (1, List(1,1,1,1,1,1,1,1,1,1)))
+  val coins = List((10, List(10, 10, 10)), (5, List(5,5,5,5)), (2, List()),(1, List(1,1,1,1,1,1,1,1,1,1)))
   val tickets = List((10, List(10)), (8, List(8,8)))
   val menu = new Menu(List("1) buy", "2) exit"))
   val machine = new Machine(coins, tickets, menu)

@@ -29,7 +29,7 @@ object Trees {
     }
 
     //57
-    def addValue[B >: T](value: B)(implicit ordering: Ordering[B]): Tree[B]
+//    def addValue[B >: T](value: B)(implicit less: (B, B) => Boolean):Tree[B]
 
 
   }
@@ -38,17 +38,17 @@ object Trees {
     override def toString = s"{$value | ${left.toString} + ${right.toString}}"
 
     //57
-    override def addValue[B >: T](value: B)(implicit ordering: Ordering[B]): Tree[B] = this.value match {
-      case v if v > value => Node(v, this.left.addValue(value), this.right)
-      case v if v < value => Node(v, this.left, this.right.addValue(value))
-      case _ => this
-    }
+//    override def addValue[B >: T](value: B)(implicit less: (B, B) => Boolean): Tree[B] = this.value match {
+//      case v:T if !less(v,value) => Node(v, this.left.addValue(value), this.right)
+//      case v:T if less(v, value) => Node(v, this.left, this.right.addValue(value))
+//      case _ => this
+//    }
   }
 
   case object End extends Tree[Nothing] {
     override def toString = "."
 
     //57
-    override def addValue[B >: Nothing](value: B): Tree[B] = Node(value, End, End)
+//    override def addValue[B >: Nothing](value: B)(less: (B,B) => Boolean): Tree[B] = Node(value, End, End)
   }
 }
