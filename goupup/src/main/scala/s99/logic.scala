@@ -7,12 +7,12 @@ object Logic {
 
   //46
   def and(p: Boolean, pp: Boolean):Boolean = p && pp
-  def not(p: Boolean) = !p
-  def or(p: Boolean, pp: Boolean) = p || pp
-  def nand(p: Boolean, pp: Boolean) = not(and(p,pp))
-  def nor(p: Boolean, pp: Boolean) = not(or(p,pp))
-  def xor(p: Boolean, pp: Boolean) = or(p,pp) && not(equ(p,pp))
-  def equ(p: Boolean, pp: Boolean) = p == pp
+  def not(p: Boolean): Boolean = !p
+  def or(p: Boolean, pp: Boolean): Boolean = p || pp
+  def nand(p: Boolean, pp: Boolean): Boolean = not(and(p,pp))
+  def nor(p: Boolean, pp: Boolean): Boolean = not(or(p,pp))
+  def xor(p: Boolean, pp: Boolean): Boolean = or(p,pp) && not(equ(p,pp))
+  def equ(p: Boolean, pp: Boolean): Boolean = p == pp
 
   //49
   def greyCode(n: Int) = {

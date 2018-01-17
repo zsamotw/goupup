@@ -81,7 +81,10 @@ class Machine(val coins: List[(Int, List[Int])], val tickets: List[(Int, List[In
 }
 
 class Menu(val items: List[String]) {
-  def print: Unit = for(item <- items) println(item)
+  def print: Unit = {
+    println("Machine menu:")
+    for(item <- items) println(item)
+  }
 }
 
 class TicketApp {
