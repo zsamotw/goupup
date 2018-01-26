@@ -76,5 +76,47 @@ object MyTree {
     }
 
   }
+
+  //61
+  def leafCount[T](tree: Tree[T]): Int = {
+    tree match {
+      case End => 0
+      case Node(_, left, right) => 1 + leafCount(left) + leafCount(right)
+    }
+  }
+
+  //61A 
+  def leafList[T](tree: Tree[T]): List[T] = {
+    tree match {
+      case End => Nil
+      case Node(value, left, right) => value :: leafList(left) ++ leafList(right)
+    }
+  }
+
+  //62
+  def internalList[T](tree: Tree[T]): List[T] = {
+    tree match {
+      case End => Nil
+      case Node(_, End, End) => Nil
+      case Node(value, left, right) => value :: internalList(left) ++ internalList(right)
+    }
+  }
+
+  //62A
+  def atLevel[T](n: Int, tree: Tree[T]): List[T] = {
+    n match {
+      case 1 =>
+        tree match {
+          case End => Nil
+          case Node(value, _, _) => List(value)
+        }
+      case _ =>
+        tree match {
+          case End => Nil
+          case Node(value, left, right) => atLevel(n - 1, left) ++ atLevel(n -1, right)
+        }
+
+    }
+  }
 }
 
