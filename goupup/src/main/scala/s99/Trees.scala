@@ -29,11 +29,28 @@ case object End extends Tree[Nothing] {
 
 object MyTree {
   //55
-  def balanced[T](n: Int, value: T): Tree[T] = {
+  def balanced[T](n: Int, value: T): List[Tree[T]] = {
     n match {
-      case 0 => End
-      case 1 => Node(value, balanced(n - 1, value), End)
-      case i if i >= 2 => Node(value, balanced(n - 1, value), balanced(n - 2, value))
+      case 0 => Nil
+      case 1 => List(Node(value, End, End))
+      case 2 => List(Node(value, Node(value, End, End), End), Node(value, End, Node(value, End, End)))
+      case _ =>
+        if(n % 2 == 0) {
+          (for{
+             l <- balanced(n/2 - 1, value)
+             r <- balanced(n/2, value)
+           } yield Node(value, l, r)) ++
+            (for{
+               l <- balanced(n/2, value)
+               r <- balanced(n/2 - 1, value)
+             } yield Node(value, l, r))
+        }
+        else {
+          for{
+            l <- balanced((n - 1) / 2, value)
+            r <- balanced((n -1) /  2, value)
+          } yield Node(value, l, r)
+        }
     }
   }
 
@@ -50,15 +67,6 @@ object MyTree {
     }
   }
 
-  //58
-//   def symetricBalancedTree[T](n: Int, value: T): Tree[T] = {
-//     n match {
-//       case 1 => Node(value, End, End)
-// //      case 2=> End
-// //      case 3 =>  Node(value, symetricBalancedTree(n - 2, value), End)
-//       case n if n >= 3 => Node(value, symetricBalancedTree(n - 2, value), symetricBalancedTree(n - 2, value))
-//     }
-//   }
 
   //59
   def highBalTree[T](n: Int, value: T): Tree[T] = {
