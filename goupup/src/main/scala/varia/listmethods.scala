@@ -86,4 +86,10 @@ object listMethods {
       acc ++ (for{a <- acc; x <- xs} yield x :: a)
     }
   }
+  
+ def combinations(xs: List[Int]): List[List[Any]] = {
+   xs.foldLeft(List[List[Int]](Nil)){(acc, e) => 
+     acc.flatMap(a => xs.map(x => x :: a))
+   }
+ }
 }
